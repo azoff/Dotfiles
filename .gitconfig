@@ -1,0 +1,67 @@
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+
+[alias]
+	cam = "!f(){ git add -A && git commit -m \"$1\"; };f"
+	cum = "!f(){ git add -u && git commit -m \"$1\"; };f"
+	parent-branch = "!f(){ git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/.*\\[\\(.*\\)\\].*/\\1/' | sed 's/[\\^~].*//'; };f"
+	drop = "!f(){ local BRANCH=${1:-`git pwb`} && git checkout ${2:-master} && git branch -D $BRANCH; };f"
+	hundo = reset --hard ${1:-HEAD}
+	newb = checkout -b
+	next = "!f(){ git add -u && git rebase --continue; };f"
+	plum = fetch --prune
+	pog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
+	prs = "!f(){ git fetch origin +refs/pull/*/head:refs/remotes/origin/pr/*; };f"
+	puss = push --force-with-lease
+	pufu = "!f(){ local BRANCH=`git pwb` && local REMOTE=${1:-'origin'} && git push --force-with-lease -u $REMOTE $BRANCH; };f"
+	pwb = "!f(){ git rev-parse --abbrev-ref HEAD; };f"
+	resolve = "!f(){ git status --porcelain | grep UU | cut -d' ' -f2 | xargs ${1:-smerge}; };f"
+	subinit = submodule update --init --recursive
+	track = "!f(){ local UPSTREAM=\"${1:-origin/`git pwb`}\"; git branch --set-upstream-to=$UPSTREAM; };f"
+	undo = reset --soft HEAD^
+	ff = merge --ff-only
+	pr = "!f(){ local to_branch=${1:-$(git parent-branch)}; local from_branch=${2:-$(git rev-parse --abbrev-ref HEAD)}; local origin=$(git config --get remote.origin.url); local org=$(echo $origin | sed -e 's/.*[\\/:]\\([^/]*\\)\\/[^/]*$/\\1/'); local repo=$(basename `git rev-parse --show-toplevel`); open \"https://github.com/$org/$repo/pull/new/$to_branch...$from_branch\"; };f"
+	identity = "! git config user.name \"$(git config user.$1.name)\"; git config user.email \"$(git config user.$1.email)\"; git config user.signingkey \"$(git config user.$1.signingkey)\"; :"
+
+[core]
+	autocrlf = input
+
+[commit]
+	gpgSign = false
+
+[push]
+	default = simple
+	followTags = true
+
+[rerere]
+	enabled = true
+
+[status]
+	showUntrackedFiles = all
+
+[transfer]
+	fsckobjects = true
+
+[gpg]
+	program = /usr/local/bin/gpg
+
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+
+[user]
+	useConfigOnly = true
+
+[user "azof.fr"]
+	name = Jonathan Azoff
+	email = jon@azof.fr
+	signingkey = E429A0AFCD4574C2
+
+[user "carta.com"]
+	name = Jon Azoff
+	email = jon.azoff@carta.com
+	signingkey = 4141D788DDA69C4F

@@ -1,0 +1,6 @@
+.DS_Store
+.kube
+.gnupg
+.ssh
+.ssh/config
+.bash/local.bash
