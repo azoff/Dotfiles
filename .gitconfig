@@ -29,7 +29,7 @@
 	autocrlf = input
 
 [commit]
-	gpgSign = false
+	gpgSign = true
 
 [push]
 	default = simple
