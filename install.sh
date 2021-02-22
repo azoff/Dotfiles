@@ -6,6 +6,12 @@ export DOT_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo "Requesting root access..."
 sudo echo "Root Access Granted!"
 
+echo "Installing xcode tools..."
+xcode-select --install
+
+echo "Installing apple defaults..."
+source "$DOT_HOME/apple/defaults.bash"
+
 echo "Installing homebrew..."
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
@@ -27,12 +33,10 @@ ln -is "$DOT_HOME/.bash" ~/.bash
 echo "Installing git config..."
 ln -is "$DOT_HOME/.gitconfig" ~/.gitconfig
 
-echo "Installing xcode tools..."
-xcode-select --install
-
 echo "Installing dev tools..."
 brew update
 brew install \
+	asciinema \
 	bash \
 	bash-completion \
 	fzf \
@@ -43,6 +47,7 @@ brew install \
 	helm \
 	icdiff \
 	jq \
+	k9s \
 	kubectl \
 	kubectx \
 	node \
@@ -50,7 +55,8 @@ brew install \
 	python3 \
 	ruby \
 	telnet \
-	thefuck
+	wget \
+	;
 ln -s /usr/local/bin/python3 /usr/local/bin/python
 ln -s /usr/local/bin/pip3 /usr/local/bin/pip
 rm /usr/local/bin/kubectl || true

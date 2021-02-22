@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
+set -e
+
 port="${1:-21}"
 sudo twistd -n ftp -p $port -r `pwd`
